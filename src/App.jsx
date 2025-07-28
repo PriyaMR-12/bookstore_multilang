@@ -3,9 +3,13 @@ import './App.css';
 import { useTranslation } from 'react-i18next';
 import BookList from "./BookList";
 import './i18n';
+import { FaBars } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
+
 
 function App() {
 const { t, i18n } = useTranslation();
+
 
   const [lang, setLang] = useState(i18n.language);
  const [cartMessage, setCartMessage] = useState('');
@@ -16,26 +20,44 @@ const [modalBookPhoto, setModalBookPhoto] = useState(null);
 const [editIdx, setEditIdx] = useState(null);
 const [cart, setCart] = useState([]);
 const [books, setBooks] = useState([]);
-
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 const translatedBooks = t("books", { returnObjects: true }) || [];
 const [storeBooks, setStoreBooks] = useState(translatedBooks);
+const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     document.body.setAttribute('data-lang', lang);
   }, [lang]);
 
- // [{ title, author, photo }]
 const handleLanguageChange = (e) => {
   const lang = e.target.value;
-  setLang(lang); // ✅ FIXED
+  setLang(lang);
   i18n.changeLanguage(lang);
 };
+
 
 
 useEffect(() => {
   setStoreBooks(t("books", { returnObjects: true }) || []);
 }, [lang, t]);
 
+const LanguageDropdown = (
+  <select
+    id="lang-select"
+    onChange={handleLanguageChange}
+    value={lang}
+    className="p-2 rounded bg-blue-900 text-white border-none md:w-auto w-full"
+  >
+    <option value="en">🇺🇸 English</option>
+    <option value="es">🇪🇸 Español</option>
+    <option value="hi">🇮🇳 हिन्दी</option>
+    <option value="kn">🇮🇳 ಕನ್ನಡ</option>
+    <option value="de">🇩🇪 Deutsch</option>
+    <option value="fr">🇫🇷 Français</option>
+    <option value="te">🇮🇳 తెలుగు</option>
+    <option value="ta">🇮🇳 தமிழ்</option>
+  </select>
+);
 
 
   // For demo: show current date and a sample number
@@ -135,7 +157,7 @@ const handleAddToCart = (book) => {
           </li>
         ))}
       </ul>
-      <div style={{ position: 'fixed', right: 24, bottom: 12, textAlign: 'right', background: 'none', boxShadow: 'none', border: 'none', zIndex: 10 }}>
+      <div style={{ position: 'fixed', right: 24, bottom: 12, textAlign: 'right', background: 'none', boxShadow: 'none', border: 'none', zIndex: 10 }} className="floating-footer">
         <strong>{t('language')}:</strong> {lang.toUpperCase()}<br/>
         <strong>Date:</strong> {formattedDate}<br/>
         <strong>Number:</strong> {formattedNumber}
@@ -148,115 +170,157 @@ const handleAddToCart = (book) => {
   return (
     <div>
       {topHeading}
-      <nav className="navbar" style={{ background: navbarColor }}>
-        <div
-          className="navbar-brand"
-          style={{ cursor: 'pointer' }}
-          onClick={() => { window.location.hash = ''; }}
-        >
-          {t('title')}
-        </div>
-        <div className="navbar-links">
+<nav
+  className="px-4 py-3 sticky top-0 z-50 text-white bg-black"
+  style={{ background: navbarColor }}
+>
+  <div className="flex items-center justify-between">
+    {/* Logo */}
+    <h1 className="text-2xl font-bold text-black-200">BookStore</h1>
+    <h3 onClick={'./'}>Back </h3>
+    {/* Desktop Navigation */}
+    <div className="hidden md:flex items-center space-x-6">
+      {/* Cart */}
+      <span
+        onClick={() => setPage("cart")}
+        className="p-2 rounded bg-blue-900 text-black cursor-pointer"
+      >
+        🛒 {t('cart')} ({cart.length})
+      </span>
+
+      {/* Language Dropdown */}
+      {LanguageDropdown}
+    </div>
 
 
-         <a
-            href="#cart"
-            className="nav-link"
-            onClick={e => {
-              e.preventDefault();
-              window.location.hash = 'cart';
-            }}
-          >{t('cart') || 'Cart'}</a>
-          <div className="lang-switcher-ui" style={{ marginTop: 0 }}>
-            <label htmlFor="lang-select" className="lang-label">
-              🌐 {t('language')}:
-            </label>
-            <select
-              id="lang-select"
-              value={lang}
-              onChange={e => {
-                setLang(e.target.value);
-                i18n.changeLanguage(e.target.value);
-              }}
-              className="lang-dropdown"
-            >
-              <option value="en">🇺🇸 English</option>
-              <option value="es">🇪🇸 Español</option>
-              <option value="hi">🇮🇳 हिन्दी</option>
-              <option value="kn">🇮🇳 ಕನ್ನಡ</option>
-              <option value="de">🇩🇪 Deutsch</option>
-              <option value="fr">🇫🇷 Français</option>
-              <option value="te">🇮🇳 తెలుగు</option>
-              <option value="ta">🇮🇳 தமிழ்</option>
-            </select>
-          </div>
-        </div>
-      </nav>
+  </div>
+
+ 
+</nav>
+
+
+
          
-        {page === 'cart' ? <CartPage />
-        : (
-          <>
-            <ul style={{ listStyle: 'none', padding: 0, marginTop: '32px', display: 'flex', flexWrap: 'wrap', gap: '32px' }}>
-              {storeBooks.length === 0 ? <li style={{ background: 'none', boxShadow: 'none', border: 'none', color: '#888', fontWeight: 500, fontSize: '1.1rem', padding: 0, margin: 0 }}>{t('noBooks') || 'No books available.'}</li> : null}
-                     <BookList books={storeBooks} onAddToCart={handleAddToCart} />    
-            </ul>
-            {showModal && (
-              <div className="modal-bg">
-                <div className="modal">
-                  <h2 style={{ color: '#f76b1c', marginBottom: 16 }}>{editIdx !== null ? t('editBook') : t('addBook')}</h2>
-                  <input
-                    type="text"
-                    value={modalBookTitle}
-                    onChange={e => setModalBookTitle(e.target.value)}
-                    placeholder={t('addBook')}
-                  />
-                  <input
-                    type="text"
-                    value={modalBookAuthor}
-                    onChange={e => setModalBookAuthor(e.target.value)}
-                    placeholder={t('author') || 'Author'}
-                    style={{ margin: '12px 0' }}
-                  />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    style={{ margin: '12px 0' }}
-                    onChange={e => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = ev => setModalBookPhoto(ev.target.result);
-                        reader.readAsDataURL(file);
-                      } else {
-                        setModalBookPhoto(null);
-                      }
-                    }}
-                  />
-                  {modalBookPhoto && <img src={modalBookPhoto} alt="preview" style={{ width: '100%', maxHeight: '120px', objectFit: 'cover', borderRadius: '8px', marginBottom: '8px', background: 'none', border: 'none' }} />}
-                  <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                    <button onClick={handleModalSave}>{t('editBook')}</button>
-                    <button onClick={() => setShowModal(false)}>Close</button>
-                  </div>
-                </div>
-              </div>
-            )}
-            <div style={{ position: 'fixed', right: 24, bottom: 12, textAlign: 'right', background: 'none', boxShadow: 'none', border: 'none', zIndex: 10 }}>
+  {page === "cart" ? (
+  <div className="p-4 max-w-screen-sm mx-auto">
+
+
+    {cart.length === 0 ? (
+      <p className="text-center text-black-500">{t('noItems')}</p>
+    ) : (
+      <ul className="space-y-4">
+        {cart.map((book, index) => (
+          <li
+            key={index}
+            className="flex flex-col sm:flex-row justify-between items-start sm:items-center border rounded-md p-4 shadow-sm bg-white text-black"
+          >
+            <div>
+              <p className="font-semibold">{book.name}</p>
+              {book.author && <p className="text-sm text-gray-600">{book.author}</p>}
+            </div>
+
+            <button
+              onClick={() => removeFromCart(index)}
+              className="mt-2 sm:mt-0 sm:ml-4 px-3 py-1 text-sm text-white bg-red-600 hover:bg-red-700 rounded"
+            >
+              {t('remove')}
+            </button>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+) : (
+    <BookList
+    books={storeBooks}
+    setBooks={setStoreBooks}
+    onAddToCart={handleAddToCart}
+    cartMessage={cartMessage}
+    onAddBook={handleAddBook}
+  />
+)}
+
+
+   <div
+  className="fixed bottom-2 right-2 text-xs sm:text-sm md:text-base bg-white/90 text-black px-3 py-2 rounded-md shadow-lg z-10"
+>
+
               <strong>{t('language')}:</strong> {lang.toUpperCase()}<br/>
               <strong>Date:</strong> {formattedDate}<br/>
               <strong>Number:</strong> {formattedNumber}
             </div>
-          </>
-
-        )}
-
-        
-
-
     </div>
 
   
 
   );
 }
+const styles = {
+  navbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#0c4a6e',
+    color: 'white',
+    padding: '10px 20px',
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000,
+  },
+  langSwitcher: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
+  langLabel: {
+    fontSize: '1rem',
+    fontWeight: 500,
+    color: 'white',
+  },
+  langDropdown: {
+    padding: '5px',
+    borderRadius: '4px',
+    backgroundColor: '#1e40af',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+  },
+  navLink: {
+    color: 'white',     
+    textDecoration: 'none',
+    fontSize: '1rem',
+    fontWeight: 500,
+    marginLeft: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '20px',
+  },
+  hamburger: {
+    display: 'none',
+    cursor: 'pointer',
+  },
+  navLinks: {
+    flexDirection: 'column',
+    gap: '10px',
+    position: 'absolute',
+    top: '60px',
+    right: '20px',
+    backgroundColor: '#0c4a6e',
+    padding: '10px',
+    borderRadius: '8px',
+  },
+  dropdown: {
+    padding: '5px',
+    borderRadius: '4px',
+  },
+  cartButton: {
+    backgroundColor: '#1e40af',
+    color: 'white',
+    padding: '5px 10px',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  },
+};
 
 export default App
