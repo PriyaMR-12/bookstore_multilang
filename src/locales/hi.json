@@ -1,0 +1,56 @@
+{
+  "title": "पुस्तक प्रबंधन",
+  "author": "लेखक",
+  "addBook": "पुस्तक जोड़ें",
+  "editBook": "पुस्तक संपादित करें",
+  "deleteBook": "पुस्तक हटाएं",
+  "language": "भाषा",
+  "welcome": "पुस्तक प्रबंधन ऐप में आपका स्वागत है",
+  "addToCart":"कार्ट में डालें",
+  "cart": "कार्ट",
+  "added_to_cart": " कार्ट में जोड़ा गया!",
+  "book_list": "पुस्तक सूची",
+   "books": {
+  "harryPotter": {
+      "title": "हैरी पॉटर",
+      "author": "जे.के. रॉलिंग"
+     },
+  "percyJackson": {
+      "title": "पर्सी जैक्सन",
+      "author": "रिक रियॉर्डन"
+     },
+  "inheritanceGames": {
+      "title": "विरासत खेल",
+      "author": "जैनी लिन बार्न्स"
+     },
+  "powerless": {
+      "title": "शक्तिहीन",
+      "author": "लॉरेन रो"
+     },
+  "twisted": {
+      "title": "मोड़",
+      "author": "आना हुआंग"
+     },
+  "youCanWin": {
+      "title": "आप जीत सकते हैं",
+      "author": "शिव खेड़ा"
+     },
+  "psychologyOfMoney": {
+      "title": "पैसे का मनोविज्ञान",
+      "author": "मॉर्गन हाउसेल"
+     },
+  "richDadPoorDad": {
+      "title": "रिच डैड पुअर डैड",
+      "author": "रॉबर्ट टी कियोसाकी"
+     },
+  "theoryOfEverything": {
+      "title": "सब कुछ का सिद्धांत: ब्रह्मांड की उत्पत्ति और भाग्य",
+      "author": "स्टीफन हॉकिंग"
+  },
+  "ikigai": {
+      "title": "इकिगाई",
+      "author": "फ्रांसिस्क मिराल्स और हेक्टर गार्सिया"
+     }
+   }
+   } 
+

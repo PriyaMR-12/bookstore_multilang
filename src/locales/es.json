@@ -1,0 +1,55 @@
+{
+  "title": "Gestión de Libros",
+  "author": "Autor",
+  "addBook": "Agregar Libro",
+  "editBook": "Editar Libro",
+  "deleteBook": "Eliminar Libro",
+  "language": "Idioma",
+  "welcome": "Bienvenido a la aplicación de gestión de libros",
+   "addToCart":"Agregar al carrito",
+  "cart": "Carrito",
+  "added_to_cart": "ha sido añadido al carrito",
+  "book_list": "Lista de Libros",
+   "books": {
+       "harryPotter":{
+      "title": "Harry Potter",
+      "author": "J.K. Rowling"
+       },
+        "percyJackson":{
+      "title": "Percy Jackson",
+      "author": "Rick Riordan"
+       },
+        "inheritanceGames":{ 
+      "title": "Juegos de Legado",
+      "author": "Jenny Lynn Barnes"
+       },
+        "powerless":{
+      "title": "Sin Poder",
+      "author": "Lauren Rowe"
+       },
+        "twisted":{
+      "title": "Retorcido",
+      "author": "Ana Huang" 
+       },
+        "youCanWin":{ 
+      "title": "Puedes Ganar",
+      "author": "Shiv Khera"
+       },
+        "psychologyOfMoney":{
+      "title": "Psicología del Dinero",
+      "author": "Morgan Housel"
+       },
+        "richDadPoorDad":{  
+      "title": "Padre Rico, Padre Pobre",
+      "author": "Robert T Kiyosaki"
+       },
+        "theoryOfEverything":{  
+      "title": "Teoría de Todo: El Origen y Destino del Universo",
+      "author": "Stephen Hawking"
+       },
+        "ikigai":{  
+      "title": "Ikigai",
+      "author": "Francesc Miralles & Héctor García"
+       }
+   }
+}
